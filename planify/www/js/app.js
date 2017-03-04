@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic'])
+angular.module('starter', ['ionic', 'starter.controllers'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -20,5 +20,74 @@ angular.module('starter', ['ionic'])
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
+     
   });
 })
+
+.config(function($stateProvider, $urlRouterProvider) {
+
+  $stateProvider
+    .state('home', {
+    url: "/",
+    templateUrl: "index.html",
+    controller: 'HomeCtrl'
+  })
+    
+    .state('signup', {
+    url: '/signup',
+    abstract: true,
+    templateUrl: 'templates/signup.html',
+    controller: 'SignupCtrl'
+  })
+  
+   .state('tab', {
+    url: '/tab',
+    abstract: true,
+    templateUrl: 'templates/tabs.html'
+  })
+
+  .state('tab.dash', {
+    url: '/dash',
+    views: {
+      'tab-dash': {
+        templateUrl: 'templates/tab-dash.html',
+        controller: 'DashCtrl'
+      }
+    }
+  })
+
+  .state('tab.projects', {
+      url: '/projects',
+      views: {
+        'tab-projects': {
+          templateUrl: 'templates/tab-projects.html',
+          controller: 'ProjectsCtrl'
+        }
+      }
+    })
+    
+
+  .state('tab.tasks', {
+    url: '/tasks',
+    views: {
+      'tab-tasks': {
+        templateUrl: 'templates/tab-tasks.html',
+        controller: 'TasksCtrl'
+      }
+    }
+  })
+  
+  .state('tab.preferences', {
+    url: '/preferences',
+    views: {
+      'tab-preferences': {
+        templateUrl: 'templates/tab-preferences.html',
+        controller: 'PreferencesCtrl'
+      }
+    }
+  });
+
+
+  $urlRouterProvider.otherwise("/");
+
+});
