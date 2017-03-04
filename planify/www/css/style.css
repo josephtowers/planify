@@ -1,1 +1,32 @@
 /* Empty. Add your own CSS if you like */
+@font-face
+{
+	font-family: 'Proxima';
+	src: url('fonts/Proxima.otf');
+
+}
+.logo
+{
+	width:50%;
+	margin:0;
+}
+.main-screen
+{
+	width:100%;
+	text-align:center;
+    padding-top:70px;
+}
+.head-title
+{
+	font-family:Proxima;
+	font-size:50px;
+	color:#95989A;
+	margin-top:0;
+}
+.custom-input
+{
+    border-bottom: 2px solid #3C66F1 !important;
+    margin: 20px auto;
+    width:90%;
+    font-size:16px !important;
+}
