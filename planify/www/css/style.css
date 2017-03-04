@@ -1,1 +1,102 @@
 /* Empty. Add your own CSS if you like */
+@font-face
+{
+	font-family: 'Proxima';
+	src: url('fonts/Proxima.otf');
+
+}
+.logo
+{
+	width:50%;
+	margin:0;
+}
+.main-screen
+{
+	width:100%;
+	text-align:center;
+    padding-top:70px;
+}
+.main-screen-signup
+{
+    padding-top: 30px !important;
+}
+.head-title
+{
+	font-family:Proxima;
+	font-size:50px;
+	color:#95989A;
+	margin-top:0;
+}
+.custom-input
+{
+    border-bottom: 2px solid #3C66F1 !important;
+    margin: 20px auto;
+    width:90%;
+    font-size:16px !important;
+}
+.custom-input-pass
+{
+    margin:0 auto !important;
+    margin-bottom: 30px !important;
+}
+.popup
+{
+    background-color:white !important;
+    padding:20px;
+    min-width: 300px;
+    font-family: Roboto !important;
+}
+.popup-head
+{
+    border-bottom:0 !important;
+    text-align:left !important;
+}
+.popup-head h3
+{
+    font-size:20px;
+        font-family: Roboto !important;
+
+}
+.popup-head h5
+{
+    font-size: 16px;
+    font-family: Roboto !important;
+}
+.popup button
+{
+    font-size:14px !important;
+  
+}
+.tab-title
+{
+    display:none;
+}
+.title
+{
+    color:white;
+    background-color: #3C66F1;
+    text-align: center !important;
+    margin:0 !important;
+}
+.tabs
+{
+    padding-top: 7px !important;
+    border-bottom: 1px solid #757575 !important;
+}
+.tab-item-active
+{
+    border:none !important;
+}
+.tab-item-active .icon
+{
+    color: #3C66F1 !important;
+}
+.activated
+{
+    border:none !important;
+    
+}
+.tab-item:not(.tab-item-active)
+{
+    color:black !important;
+}
