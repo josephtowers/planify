@@ -20,6 +20,20 @@
         "C:/Users/pricemart/Documents/Planify/Work/planify/planify/plugins/cordova-plugin-dialogs/src/firefoxos/notification.js",
         "C:/Users/pricemart/Documents/Planify/Work/planify/planify/plugins/cordova-plugin-dialogs/src/windows/NotificationProxy.js",
         "C:/Users/pricemart/Documents/Planify/Work/planify/planify/plugins/cordova-plugin-dialogs/tests/tests.js",
-        "C:/Users/pricemart/Documents/Planify/Work/planify/planify/plugins/cordova-plugin-dialogs/www/android/notification.js"
+        "C:/Users/pricemart/Documents/Planify/Work/planify/planify/plugins/cordova-plugin-dialogs/www/android/notification.js",
+        "C:/Users/pricemart/Documents/Planify/Work/planify/planify/plugins/cordova-plugin-dialogs/www/blackberry10/beep.js",
+        "C:/Users/pricemart/Documents/Planify/Work/planify/planify/plugins/cordova-plugin-dialogs/www/browser/notification.js",
+        "C:/Users/pricemart/Documents/Planify/Work/planify/planify/plugins/cordova-plugin-dialogs/www/notification.js",
+        "C:/Users/pricemart/Documents/Planify/Work/planify/planify/plugins/cordova-plugin-splashscreen/src/blackberry10/index.js",
+        "C:/Users/pricemart/Documents/Planify/Work/planify/planify/plugins/cordova-plugin-splashscreen/src/browser/SplashScreenProxy.js",
+        "C:/Users/pricemart/Documents/Planify/Work/planify/planify/plugins/cordova-plugin-splashscreen/src/tizen/SplashScreenProxy.js",
+        "C:/Users/pricemart/Documents/Planify/Work/planify/planify/plugins/cordova-plugin-splashscreen/tests/tests.js",
+        "C:/Users/pricemart/Documents/Planify/Work/planify/planify/plugins/cordova-plugin-splashscreen/www/windows/SplashScreenProxy.js",
+        "C:/Users/pricemart/Documents/Planify/Work/planify/planify/plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+        "C:/Users/pricemart/Documents/Planify/Work/planify/planify/plugins/cordova-plugin-statusbar/src/browser/StatusBarProxy.js",
+        "C:/Users/pricemart/Documents/Planify/Work/planify/planify/platforms/android/platform_www/plugins/cordova-plugin-device/www/device.js",
+        "C:/Users/pricemart/Documents/Planify/Work/planify/planify/platforms/android/platform_www/plugins/cordova-plugin-dialogs/www/android/notification.js",
+        "C:/Users/pricemart/Documents/Planify/Work/planify/planify/platforms/android/platform_www/plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+        "C:/Users/pricemart/Documents/Planify/Work/planify/planify/plugins/cordova-plugin-console/www/console-via-logger.js"
     ]
 }

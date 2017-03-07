@@ -43,62 +43,99 @@ angular.module('starter.services', [])
       users.splice(users.indexOf(user), 1);
     },
     get: function(userId) {
-      for (var i = 0; i < history.length; i++) {
+      for (var i = 0; i < users.length; i++) {
         if (users[i].id === parseInt(userId)) {
           return users[i];
         }
       }
       return null;
-    }
-  };
-})
-
-.factory('Chats', function() {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-  var chats = [{
-    id: 0,
-    name: 'Marcos Ventura',
-    lastText: '809-598-0012',
-    face: 'img/ben.png'
-  }, {
-    id: 1,
-    name: 'Andrés González',
-    lastText: '829-564-1225',
-    face: 'img/max.png'
-  }, {
-    id: 2,
-    name: 'Adam Bradleyson',
-    lastText: '849-766-6811',
-    face: 'img/adam.jpg'
-  }, {
-    id: 3,
-    name: 'Perry Governor',
-    lastText: '829-899-5003',
-    face: 'img/perry.png'
-  }, {
-    id: 4,
-    name: 'Mike Harrington',
-    lastText: '809-954-2451',
-    face: 'img/mike.png'
-  }];
-
-  return {
-    all: function() {
-      return chats;
     },
-    remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
-    },
-    get: function(chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
+      getByEmail: function(email)
+      {
+          for (var i = 0; i < users.length; i++) {
+        if (users[i].email === email) {
+          return users[i];
         }
       }
       return null;
-    }
+      }
+  };
+})
+
+.factory('Projects', function() {
+  // Might use a resource here that returns a JSON array
+
+  var projects = [{
+      id: 0,
+      nombre: 'Tienda de zapatos',
+      descripcion: 'Este proyecto es para crear nuestra primera tienda de zapatos',
+      miembros: [1,2],
+      miembrosCount: 2,
+      imagen: 'img/shoestore.jpg',
+      color: 'rgb(151, 213, 96)'
+  },{
+      id: 1,
+      nombre: 'Desarrollo web',
+      descripcion: 'Este proyecto es para crear nuestra primera página web',
+      miembros: [0,1,3],
+      miembrosCount: 3,
+      imagen: 'img/webdev.jpg',
+      color: 'rgb(255, 101, 79)'
+  }]
+
+  return {
+    all: function() {
+      return projects;
+    },
+    remove: function(pro) {
+      projects.splice(projects.indexOf(pro), 1);
+    },
+    get: function(proId) {
+      for (var i = 0; i < projects.length; i++) {
+        if (projects[i].id === parseInt(proId)) {
+          return projects[i];
+        }
+      }
+      return null;
+    },
+      addMember: function(pro, id)
+      {
+          for (var i = 0; i < projects.length; i++) {
+        if (projects[i].id === parseInt(pro)) {
+          projects[i].miembros.push(id);
+            projects[i].miembrosCount++;
+        }
+      }
+      },
+      isPartOf: function(pro, id)
+      {
+           for (var i = 0; i < projects.length; i++) {
+               if (projects[i].id === parseInt(pro)) {
+                   for(var j = 0; j < projects[i].miembros.length; j++)
+                       {
+                           if(projects[i].miembros[j] === parseInt(id))
+                               {
+                                   return true;
+                               }
+                       }
+               }
+      }
+          return false;
+      },
+      
+      addProject: function(nombre, descripcion, id, color)
+      {
+          var newProject = {
+              id: projects.length,
+              nombre: nombre,
+              descripcion: descripcion,
+              miembros: [id],
+              miembrosCount: 1,
+              imagen: 'img/project.png',
+              color: color
+          }
+          projects.push(newProject);
+      }
   };
 });
 
