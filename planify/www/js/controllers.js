@@ -4,12 +4,6 @@ angular.module('starter.controllers', [])
 
 .controller('HomeCtrl', function($scope, $ionicModal, $timeout, $location, $ionicPopup, $state, Users, userInSession) {
 
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
     $scope.register = function()
     {
         $scope.closeLogin();
@@ -82,7 +76,7 @@ angular.module('starter.controllers', [])
   });
 
  };
-    
+
 $scope.showPopup = function() {
   $scope.data = {};
    
@@ -271,7 +265,9 @@ $scope.showPopup = function() {
             type: 'button-clear button-calm',
               onTap: function()
               {
+
                   if($scope.pro.nombre != null && $scope.pro.descripcion != null)
+
                       {
                           var color = 'rgb('+ Math.floor((Math.random() * 255) + 1) +','+ Math.floor((Math.random() * 255) + 1) +','+ Math.floor((Math.random() * 255) + 1) +')';
                           Projects.addProject($scope.pro.nombre, $scope.pro.descripcion, userInSession, color);
