@@ -5,11 +5,11 @@
       	<img class="logo" ng-src="img/logo.png">
       	<h1 class="head-title">Planify</h1>
         <form>
-            <input type="text" class="custom-input" placeholder="Nombre completo">
-            <input type="email" class="input custom-input" placeholder="Correo electrónico">
-            <input type="number" class="input custom-input" placeholder="Teléfono">
-            <input type="password" class="input custom-input" placeholder="Contraseña">
-            <input type="password" class="input custom-input" placeholder="Confirmar contraseña">
+            <input type="text" maxlength="50" class="custom-input" placeholder="Nombre completo" ng-model="newuser.nombre">
+            <input type="email" class="input custom-input" placeholder="Correo electrónico" ng-model="newuser.email">
+            <input type="number" maxlength="10" class="input custom-input" placeholder="Teléfono" ng-model="newuser.phone">
+            <input type="password" maxlength="20" class="input custom-input" placeholder="Contraseña" ng-model="newuser.pass">
+            <input type="password" maxlength="20" class="input custom-input" placeholder="Confirmar contraseña" ng-model="newuser.pass2">
             <div class="button-group">
                 <button class="button button-positive" ng-click="register()">
                     CREAR CUENTA
