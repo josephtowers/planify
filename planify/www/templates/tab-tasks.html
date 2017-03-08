@@ -1,4 +1,4 @@
-<ion-view view-title="Proyectos" ng-controller="TasksCtrl">
+<ion-view view-title="Tareas" ng-controller="TasksCtrl">
   <ion-content class="projects-content">
     <ion-refresher on-refresh="doRefresh()">
 
@@ -17,6 +17,7 @@
         <p>Creador: {{task.creator}}</p>
         <p>Fecha de creacion: {{task.datecreated}}</p>
         <p>Fecha limite: {{task.datelimit}}</p>
+        <p>Asignado a: {{task.assignedTo}}</p>
         <p>Prioridad: {{task.priority}}</p>
 
         <select>
@@ -29,7 +30,7 @@
       </div>
     </div>
     <div class="padding">
-      <button class="button button-balanced button-block" ng-click="addTask()">AGREGAR PROYECTO</button>
+      <button class="button button-balanced button-block" ng-click="addTask()">AGREGAR TAREA</button>
     </div>
 
 

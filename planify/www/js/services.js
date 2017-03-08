@@ -189,45 +189,47 @@ angular.module('starter.services', [])
 
   var tasks = [{
     id: 0,
-    nombre: 'Buscar Local',
+    nombre: 'Buscar local',
     descripcion: 'Buscar un lugar suficientemente grande para la tienda de zapatos',
-    project: 'Tienda Zapatos',
-    creator: 'Kevin Curiel',
+    project: 0,
+    creator: 2,
     datecreated: '8/3/17',
     datelimit: '8/4/17',
     priority: 'Alta',
+    assignedTo: 2,
     color: 'rgb(151, 213, 96)'
   },{
     id: 1,
-    nombre: 'Buscar Personal',
+    nombre: 'Buscar personal',
     descripcion: 'Buscar personal para la tienda de zapatos',
-    project: 'Tienda Zapatos',
-    creator: 'Kevin Curiel',
+    project: 0,
+    creator: 2,
     datecreated: '8/3/17',
     datelimit: '8/4/17',
     priority: 'Media',
+      assignedTo: 2,
     color: 'rgb(151, 213, 96)'
   },{
     id: 2,
     nombre: 'Seleccionar lenguaje',
     descripcion: 'Reunirse y seleccionar el lenguaje que vamos a usar',
-    project: 'Desarrollo Web',
-    creator: 'Kevin Curiel',
+    project: 1,
+    creator: 0,
     datecreated: '8/3/17',
     datelimit: '8/4/17',
     priority: 'Media',
+      assignedTo: 0,
     color: 'rgb(255, 101, 79)'
 },{
     id: 3,
-    nombre: 'Seleccionar Plataforma',
+    nombre: 'Seleccionar plataforma',
     descripcion: 'Reunirse y seleccionar la plataforma que vamos a usar',
-    project: 'Desarrollo Web',
-    creator: 'Kevin Curiel',
+    project: 1,
+    creator: 0,
     datecreated: '8/3/17',
     datelimit: '8/4/17',
     priority: 'Alta',
-    miembrosCount: 3,
-    imagen: 'img/webdev.jpg',
+    assignedTo: 3,
     color: 'rgb(255, 101, 79)'
   }]
 
@@ -237,44 +239,32 @@ angular.module('starter.services', [])
       return tasks;
     },
     remove: function(pro) {
-      projects.splice(projects.indexOf(pro), 1);
+      tasks.splice(tasks.indexOf(task), 1);
     },
-    get: function(proId) {
+    get: function(taskId) {
       for (var i = 0; i < projects.length; i++) {
-        if (projects[i].id === parseInt(proId)) {
-          return projects[i];
+        if (tasks[i].id === parseInt(taskId)) {
+          return tasks[i];
         }
       }
       return null;
     },
-    isPartOf: function(pro, id)
-    {
-      for (var i = 0; i < projects.length; i++) {
-        if (projects[i].id === parseInt(pro)) {
-          for(var j = 0; j < projects[i].miembros.length; j++)
-          {
-            if(projects[i].miembros[j] === parseInt(id))
-            {
-              return true;
-            }
-          }
-        }
-      }
-      return false;
-    },
 
-    addTask: function(nombre, descripcion, id, color)
+    addTask: function(nombre, descripcion, creatorId, assignedToId, projectId, color)
     {
       var newTask = {
-        id: projects.length,
+        id: tasks.length,
         nombre: nombre,
         descripcion: descripcion,
-        project: [id],
-        miembrosCount: 1,
-        imagen: 'img/project.png',
-        color: color
+        project: projectId,
+        creator: creatorId,
+        datecreated: '8/3/17',
+        datelimit: '8/4/17',
+        priority: 'Alta',
+          assignedTo: assignedToId,
+        color: 'rgb(255, 101, 79)'
       }
-      projects.push(newProject);
+      tasks.push(newTask);
     }
   };
 });

@@ -70,6 +70,7 @@ angular.module('starter.controllers', [])
                   }
               else
                   {
+                      try{
                       var obj = {};
                       obj.nombre = data.nombre;
                       obj.email = data.email;
@@ -79,6 +80,11 @@ angular.module('starter.controllers', [])
                     //   $scope.informPopup('¡Todo listo!','Bienvenido a Planify, ' + obj.nombre + '. Por favor, inicia sesión para comenzar');
                         $scope.closeLogin();
                          $scope.showToast('¡Cuenta creada! Por favor, inicia sesión para comenzar','long','bottom');
+                      }
+                      catch(e)
+                          {
+                              alert(e.message);
+                          }
 
                  //     $state.go('tab.dash');
                   }
@@ -103,7 +109,6 @@ angular.module('starter.controllers', [])
   // Open the login modal
   $scope.login = function() {
     $scope.modal.show();
-      alert(userInSession);
   };
 
     $scope.doLogin = function() {
@@ -196,7 +201,7 @@ $scope.showPopup = function() {
  };
 })
 
-.controller('DashCtrl', function($scope, Users, UserInSession, Projects, $timeout) {
+.controller('DashCtrl', function($scope, Users, UserInSession, Projects, $timeout, Tasks) {
 
     $scope.doRefresh = function() {
 
@@ -204,12 +209,26 @@ $scope.showPopup = function() {
     $timeout( function() {
 
     $scope.pros = $scope.getProjects();
+         $scope.tasks = $scope.getTasks();
       $scope.$broadcast('scroll.refreshComplete');
     }, 1000);
 
   };
     $scope.user = Users.get(UserInSession.get());
-
+    $scope.getTasks = function()
+    {
+        var tasks = Tasks.all();
+        var renderedTasks = [];
+        for(var i = 0; i < tasks.length; i++)
+            {
+                if(tasks[i].creator === UserInSession.get() || tasks[i].assignedTo === UserInSession.get()){
+                                
+                renderedTasks.push(tasks[i])}
+                
+            }
+        return renderedTasks.length;
+    }
+     $scope.tasks = $scope.getTasks();
     $scope.getProjects = function(){
         var projects = Projects.allMine(UserInSession.get());
         return projects.length;
@@ -225,7 +244,7 @@ $scope.showPopup = function() {
     console.log('Refreshing!');
     $timeout( function() {
 
-    $scope.projects = Projects.allMine($scope.userInSession);
+    $scope.projects = Projects.allMine(UserInSession.get());
       $scope.$broadcast('scroll.refreshComplete');
     }, 1000);
 
@@ -496,7 +515,7 @@ $scope.showPopup = function() {
                   {
 
                       $scope.informPopup('Error', 'El correo electrónico no corresponde a ningún usuario. Inténtelo de nuevo',$scope.addMember());
-                  }
+                  }*/
           }
       }
     ]
@@ -551,7 +570,7 @@ $scope.showPopup = function() {
 
                       {
                           var color = 'rgb('+ Math.floor((Math.random() * 255) + 1) +','+ Math.floor((Math.random() * 255) + 1) +','+ Math.floor((Math.random() * 255) + 1) +')';
-                          Projects.addProject($scope.pro.nombre, $scope.pro.descripcion, userInSession, color);
+                          Projects.addProject($scope.pro.nombre, $scope.pro.descripcion, UserInSession.get(), color);
                           $('.custom-input').html('');
                       }
                   else{
@@ -564,10 +583,58 @@ $scope.showPopup = function() {
         ]
       });
     }
-})*/
+})
 
-.controller('TasksCtrl', function($scope, $timeout, $ionicPopup, Tasks, Users, userInSession) {
-  $scope.tasks = Tasks.all();
+.controller('TasksCtrl', function($scope, $timeout, $ionicPopup, Tasks, Users, UserInSession, Projects) {
+ 
+    $scope.myProjects = Projects.allMine(UserInSession.get());
+    $scope.doRefresh = function() {
+
+    console.log('Refreshing!');
+    $timeout( function() {
+
+    $scope.myProjects = Projects.allMine(UserInSession.get());
+         $scope.tasks = $scope.getTasks();
+  $scope.users = Users.all();
+      $scope.$broadcast('scroll.refreshComplete');
+    }, 1000);
+
+  };
+    $scope.getTasks = function()
+    {
+        var tasks = Tasks.all();
+        var renderedTasks = [];
+        for(var i = 0; i < tasks.length; i++)
+            {
+                if(tasks[i].creator === UserInSession.get() || tasks[i].assignedTo === UserInSession.get()){
+                var creator = tasks[i].creator;
+                var user = Users.get(parseInt(creator));
+                var nombreUsuario = user.nombre;
+                var project = tasks[i].project;
+                var pro = Projects.get(parseInt(project));
+                var nombreProyecto = pro.nombre;
+                var assignee = tasks[i].assignedTo;
+                var user2 = Users.get(parseInt(assignee));
+                var nombreAsignado = user2.nombre;
+                var task = {
+                    id: tasks[i].id,
+                    nombre: tasks[i].nombre,
+                    descripcion: tasks[i].descripcion,
+                    project: nombreProyecto,
+                    creator: nombreUsuario,
+                    datecreated: tasks[i].datecreated,
+                    datelimit: tasks[i].datelimit,
+                    priority: tasks[i].priority,
+                    assignedTo: nombreAsignado,
+                    color: tasks[i].color
+                }
+                
+                renderedTasks.push(task);}
+                
+            }
+        return renderedTasks;
+    }
+     $scope.tasks = $scope.getTasks();
   $scope.users = Users.all();
 
   $scope.showMe = function(n){
@@ -591,13 +658,44 @@ $scope.showPopup = function() {
     }
 
   };
+    
+    $scope.task = {
+        nombre: null,
+        selectedProject: null,
+        selectedTask: null,
+        fecha: null,
+        descripcion: null
+    };
+    $scope.members = [];
+    $scope.$watch('task.selectedProject', function()
+                 {
+        if($scope.task != null)
+        console.log($scope.task);
+        $scope.getMembers();
+    })
+    $scope.getMembers = function()
+    {
+        if($scope.task.selectedProject >= 0)
+            {
+                console.log('Hubo otro cambio');
+                var project = Projects.get($scope.task.selectedProject);
+                var miembros = [];
+                for(var i = 0; i < project.miembros.length; i++)
+                    {
+                        var user = Users.get(project.miembros[i]);
+                        miembros.push(user);
 
+                    }
+                $scope.members = miembros;
+            }
+        
+    }
   $scope.pro = {};
   $scope.addTask = function()
   {
     var myPopup = $ionicPopup.show({
-      template: '<input type="text" class="custom-input custom-input-pass" placeholder="Nombre del Task" ng-model="task.nombre"><textarea rows="4" type="text" class="custom-input custom-input-pass" placeholder="Descripción" style="resize:none" ng-model="task.descripcion">',
-      title: 'Agregar proyecto',
+      template: '<input type="text" class="custom-input custom-input-pass" placeholder="Nombre de la tarea" ng-model="task.nombre"><label for="proyecto">Proyecto</label><select name="proyecto" class="custom-input custom-input-pass" id="custom-input-sel" style="border:none" placeholder="Proyecto" ng-model="task.selectedProject"><option ng-repeat="pro in myProjects" value="{{pro.id}}">{{pro.nombre}}</option></select><label for="asignado">Asignado a</label><select name="asignado" class="custom-input custom-input-pass" style="border:none" placeholder="Asignado a" ng-model="task.selectedTask"><option ng-repeat="member in members" value="{{member.id}}">{{member.nombre}}</option></select><label for="fecha">Fecha límite</label><input name="fecha" type="date" class="custom-input custom-input-pass" ng-model="task.fecha"><textarea rows="4" type="text" class="custom-input custom-input-pass" placeholder="Descripción" style="resize:none" ng-model="task.descripcion">',
+      title: 'Agregar tarea',
       scope: $scope,
       buttons: [
         {
@@ -611,15 +709,17 @@ $scope.showPopup = function() {
           onTap: function()
           {
 
-            if($scope.task.nombre != null && $scope.task.descripcion != null)
+            if($scope.task.nombre != null && $scope.task.descripcion != null && $scope.task.fecha != null && $scope.task.selectedProject != null && $scope.task.selectedTask != null)
 
             {
-              var color = 'rgb('+ Math.floor((Math.random() * 255) + 1) +','+ Math.floor((Math.random() * 255) + 1) +','+ Math.floor((Math.random() * 255) + 1) +')';
-              Projects.addTask($scope.task.nombre, $scope.task.descripcion, userInSession, color);
+                var projectOfMine = Projects.get($scope.task.selectedProject);
+              var color = projectOfMine.color;
+              Tasks.addTask($scope.task.nombre, $scope.task.descripcion, UserInSession.get(), $scope.task.selectedTask, $scope.task.selectedProject, color);
               $('.custom-input').html('');
+                $scope.doRefresh();
             }
             else{
-              $scope.informPopup('Error', 'Debe introducir un nombre y una descripción', $scope.addTask());
+              $scope.informPopup('Error', 'Debe llenar y seleccionar todos los campos', $scope.addTask());
             }
 
 
