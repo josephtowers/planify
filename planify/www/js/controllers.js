@@ -181,14 +181,14 @@ $scope.showPopup = function() {
         type: 'button-clear button-calm',
           onTap: function()
           {
-              if($scope.validateEmail(data.email)){
+              if($scope.validateEmail($scope.forgot.pass)){
 
               $scope.showToast('Si tiene una cuenta en Planify, recibirá un correo electrónico a ' + $scope.forgot.pass + ' con instrucciones para recuperar su contraseña','long','bottom');
                  }
           else
           {
-                 $scope.showToast('Ese no es un correo electrónico','long','bottom');
-          }
+                 $scope.showToast('Ese no es un correo electrónico','long','bottom');  
+          }  
 
       }}
     ]
