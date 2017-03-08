@@ -1,5 +1,6 @@
 angular.module('starter.controllers', [])
 
+.value('userInSession',0)
 
 .controller('HomeCtrl', function($scope, $ionicModal, $timeout, $location, $ionicPopup, $state, Users, UserInSession, $ionicHistory, $cordovaToast) {
     $scope.showToast = function(message, duration, location) {
@@ -32,6 +33,7 @@ angular.module('starter.controllers', [])
     ]
    });
     };
+
     $scope.register = function()
     {
         console.log('Doing signup', $scope.newuser);
@@ -101,6 +103,7 @@ angular.module('starter.controllers', [])
   // Open the login modal
   $scope.login = function() {
     $scope.modal.show();
+      alert(userInSession);
   };
 
     $scope.doLogin = function() {
@@ -150,7 +153,9 @@ angular.module('starter.controllers', [])
   });
 
  };
+
 $scope.forgot = {};
+
 $scope.showPopup = function() {
   $scope.data = {};
 
@@ -383,15 +388,249 @@ $scope.showPopup = function() {
                       $scope.informPopup('Error', 'Debe introducir un nombre y una descripción', $scope.addProject());
                   }
 
+/*
+.controller('ProjectsCtrl', function($scope, $timeout, $ionicPopup, Projects, Users, userInSession) {
+
+    $scope.doRefresh = function() {
+
+    console.log('Refreshing!');
+    $timeout( function() {
+
+      $scope.$broadcast('scroll.refreshComplete');
+
+    }, 1000);
+
+  };
+
+    $scope.projects = Projects.all();
+    $scope.users = Users.all();
+
+    $scope.showMe = function(n){
+        if($('ion-item[aria-order="'+n+'"]').hasClass('activenow'))
+            {
+                $('.hidden').slideUp(400);
+                $('.activenow').removeClass('activenow');
+                $('ion-item[aria-order="'+n+'"] i').removeClass('ion-chevron-up');
+                $('ion-item[aria-order="'+n+'"] i').addClass('ion-chevron-down');
+            }
+        else
+            {
+                $('.projects-content i').removeClass('ion-chevron-up');
+                $('.projects-content i').addClass('ion-chevron-down');
+                $('.hidden').slideUp(400);
+                $('.hidden' + n).slideDown(400);
+                $('.activenow').removeClass('activenow');
+                $('ion-item[aria-order="'+n+'"]').addClass('activenow');
+                $('ion-item[aria-order="'+n+'"] i').removeClass('ion-chevron-down');
+                $('ion-item[aria-order="'+n+'"] i').addClass('ion-chevron-up');
+            }
+
+    };
+
+    $scope.showMembers = function(pro)
+    {
+        var template = "";
+        var project = Projects.get(pro);
+        var members = project.miembros;
+        for(var i = 0; i < members.length; i++)
+            {
+                var member = Users.get(members[i]);
+                template += '<ion-item class="item-remove-animate item-avatar item-icon-right item-borderless" type="item-text-wrap" style="padding-right:0 !important"><img style="background-color:lightgreen"><h2>'+member.nombre+'</h2><p>'+member.email+'</p></ion-item>';
+            }
+        var myPopup = $ionicPopup.show({
+    template: template,
+    title: 'Miembros',
+    scope: $scope,
+    buttons: [
+
+        { text: 'CERRAR',
+       type: 'button-clear button-calm'
+      },
+
+      {
+        text: 'AGREGAR',
+        type: 'button-clear button-calm',
+          onTap: function()
+          {
+              $scope.addMember(pro);
+          }
+      }
+    ]
+  });
+    };
+
+    $scope.add = {};
+    $scope.addMember = function(pro)
+    {
+        var myPopup = $ionicPopup.show({
+    template: '<input type="email" class="custom-input custom-input-pass" placeholder="Correo electrónico" ng-model="add.email">',
+    title: 'Agregar miembro',
+    subTitle: 'Por favor, introduzca el correo electrónico de la persona que se agregará al proyecto:',
+    scope: $scope,
+    buttons: [
+
+        { text: 'CANCELAR',
+       type: 'button-clear button-calm',
+         onTap: function()
+         {
+             $('.custom-input').html('');
+         }
+      },
+
+      {
+        text: 'ACEPTAR',
+        type: 'button-clear button-calm',
+          onTap: function()
+          {
+              $('.custom-input').html('');
+              var member = Users.getByEmail($scope.add.email);
+              if(member != null)
+                  {
+                      if(Projects.isPartOf(pro, member.id))
+                          {
+                               $scope.informPopup('Error', 'El correo electrónico corresponde a un usuario que ya es parte del proyecto. Inténtelo de nuevo',$scope.addMember());
+                          }
+                      else Projects.addMember(pro, member.id);
+                  }
+              else
+                  {
+
+                      $scope.informPopup('Error', 'El correo electrónico no corresponde a ningún usuario. Inténtelo de nuevo',$scope.addMember());
+                  }
+          }
+      }
+    ]
+  });
+    }
+
+     $scope.informPopup = function(title, subTitle, callback) {
+
+  var myPopup = $ionicPopup.show({
+//    template: '<input type="email" class="custom-input custom-input-pass" placeholder="Correo electrónico">',
+    title: title,
+    subTitle: subTitle,
+    scope: $scope,
+    buttons: [
+      {
+        text: '',
+          type: 'button-clear'
+      },
+
+      {
+        text: 'ACEPTAR',
+        type: 'button-clear button-calm'
+      }
+    ]
+  });
+
+  myPopup.then(function(res) {
+    console.log('Tapped!', res);
+  });
+
+ };
+    $scope.pro = {};
+    $scope.addProject = function()
+    {
+        var myPopup = $ionicPopup.show({
+        template: '<input type="text" class="custom-input custom-input-pass" placeholder="Nombre del proyecto" ng-model="pro.nombre"><textarea rows="4" type="text" class="custom-input custom-input-pass" placeholder="Descripción" style="resize:none" ng-model="pro.descripcion">',
+        title: 'Agregar proyecto',
+        scope: $scope,
+        buttons: [
+          {
+            text: 'CANCELAR',
+              type: 'button-clear button-calm'
+          },
+
+          {
+            text: 'ACEPTAR',
+            type: 'button-clear button-calm',
+              onTap: function()
+              {
+
+                  if($scope.pro.nombre != null && $scope.pro.descripcion != null)
+
+                      {
+                          var color = 'rgb('+ Math.floor((Math.random() * 255) + 1) +','+ Math.floor((Math.random() * 255) + 1) +','+ Math.floor((Math.random() * 255) + 1) +')';
+                          Projects.addProject($scope.pro.nombre, $scope.pro.descripcion, userInSession, color);
+                          $('.custom-input').html('');
+                      }
+                  else{
+                      $scope.informPopup('Error', 'Debe introducir un nombre y una descripción', $scope.addProject());
+                  }
+
 
               }
           }
         ]
       });
     }
+})*/
+
+.controller('TasksCtrl', function($scope, $timeout, $ionicPopup, Tasks, Users, userInSession) {
+  $scope.tasks = Tasks.all();
+  $scope.users = Users.all();
+
+  $scope.showMe = function(n){
+    if($('ion-item[aria-order="'+n+'"]').hasClass('activenow'))
+    {
+      $('.hidden').slideUp(400);
+      $('.activenow').removeClass('activenow');
+      $('ion-item[aria-order="'+n+'"] i').removeClass('ion-chevron-up');
+      $('ion-item[aria-order="'+n+'"] i').addClass('ion-chevron-down');
+    }
+    else
+    {
+      $('.projects-content i').removeClass('ion-chevron-up');
+      $('.projects-content i').addClass('ion-chevron-down');
+      $('.hidden').slideUp(400);
+      $('.hidden' + n).slideDown(400);
+      $('.activenow').removeClass('activenow');
+      $('ion-item[aria-order="'+n+'"]').addClass('activenow');
+      $('ion-item[aria-order="'+n+'"] i').removeClass('ion-chevron-down');
+      $('ion-item[aria-order="'+n+'"] i').addClass('ion-chevron-up');
+    }
+
+  };
+
+  $scope.pro = {};
+  $scope.addTask = function()
+  {
+    var myPopup = $ionicPopup.show({
+      template: '<input type="text" class="custom-input custom-input-pass" placeholder="Nombre del Task" ng-model="task.nombre"><textarea rows="4" type="text" class="custom-input custom-input-pass" placeholder="Descripción" style="resize:none" ng-model="task.descripcion">',
+      title: 'Agregar proyecto',
+      scope: $scope,
+      buttons: [
+        {
+          text: 'CANCELAR',
+          type: 'button-clear button-calm'
+        },
+
+        {
+          text: 'ACEPTAR',
+          type: 'button-clear button-calm',
+          onTap: function()
+          {
+
+            if($scope.task.nombre != null && $scope.task.descripcion != null)
+
+            {
+              var color = 'rgb('+ Math.floor((Math.random() * 255) + 1) +','+ Math.floor((Math.random() * 255) + 1) +','+ Math.floor((Math.random() * 255) + 1) +')';
+              Projects.addTask($scope.task.nombre, $scope.task.descripcion, userInSession, color);
+              $('.custom-input').html('');
+            }
+            else{
+              $scope.informPopup('Error', 'Debe introducir un nombre y una descripción', $scope.addTask());
+            }
+
+
+          }
+        }
+      ]
+    });
+  }
+
 })
 
-.controller('TasksCtrl', function($scope) {})
 
 .controller('PreferencesCtrl', function($scope, $ionicModal,$ionicPopup, $state) {
 

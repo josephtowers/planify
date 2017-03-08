@@ -1,8 +1,37 @@
-<ion-view view-title="Tareas">
-  <ion-content class="padding">
-  
-  <p>
-    Aquí van las Tareas
-    </p>
+<ion-view view-title="Proyectos" ng-controller="TasksCtrl">
+  <ion-content class="projects-content">
+    <ion-refresher on-refresh="doRefresh()">
+
+    </ion-refresher>
+    <div class="card" ng-repeat="task in tasks">
+      <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" aria-order="{{task.id}}" ng-click="showMe({{task.id}})" >
+        <img style="background-color:{{task.color}}">
+        <h2>{{task.nombre}}</h2>
+        <p>{{task.project}}</p>
+        <i class="icon ion-chevron-down icon-accessory"></i>
+
+      </ion-item>
+      <div class="item item-body hidden hidden{{task.id}}" style="display:none">
+
+        <p>{{task.descripcion}}</p>
+        <p>Creador: {{task.creator}}</p>
+        <p>Fecha de creacion: {{task.datecreated}}</p>
+        <p>Fecha limite: {{task.datelimit}}</p>
+        <p>Prioridad: {{task.priority}}</p>
+
+        <select>
+          <option>Abierto</option>
+          <option selected>En proceso</option>
+          <option >En revision</option>
+          <option>Cerrado</option>
+        </select>
+
+      </div>
+    </div>
+    <div class="padding">
+      <button class="button button-balanced button-block" ng-click="addTask()">AGREGAR PROYECTO</button>
+    </div>
+
+
   </ion-content>
 </ion-view>

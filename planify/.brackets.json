@@ -34,9 +34,6 @@
         "C:/Users/pricemart/Documents/Planify/Work/planify/planify/platforms/android/platform_www/plugins/cordova-plugin-device/www/device.js",
         "C:/Users/pricemart/Documents/Planify/Work/planify/planify/platforms/android/platform_www/plugins/cordova-plugin-dialogs/www/android/notification.js",
         "C:/Users/pricemart/Documents/Planify/Work/planify/planify/platforms/android/platform_www/plugins/cordova-plugin-splashscreen/www/splashscreen.js",
-        "C:/Users/pricemart/Documents/Planify/Work/planify/planify/plugins/cordova-plugin-console/www/console-via-logger.js",
-        "C:/Users/pricemart/Documents/Planify/Work/planify/planify/plugins/cordova-plugin-statusbar/src/windows/StatusBarProxy.js",
-        "C:/Users/pricemart/Documents/Planify/Work/planify/planify/plugins/cordova-plugin-statusbar/tests/tests.js",
-        "C:/Users/pricemart/Documents/Planify/Work/planify/planify/plugins/cordova-plugin-statusbar/www/statusbar.js"
+
     ]
 }

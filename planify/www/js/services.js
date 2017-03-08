@@ -39,6 +39,7 @@ angular.module('starter.services', [])
     all: function() {
       return users;
     },
+
     new: function(obj)
       {
           var newuser = {
@@ -72,6 +73,7 @@ angular.module('starter.services', [])
       }
   };
 })
+
 
 .factory('UserInSession', function(){
     var user = 0;
@@ -113,6 +115,7 @@ angular.module('starter.services', [])
     all: function() {
       return projects;
     },
+
       allMine: function(id)
       {
           console.log("Buscando los proyectos de " + id);
@@ -164,7 +167,7 @@ angular.module('starter.services', [])
       }
           return false;
       },
-      
+
       addProject: function(nombre, descripcion, id, color)
       {
           var newProject = {
@@ -179,5 +182,99 @@ angular.module('starter.services', [])
           projects.push(newProject);
       }
   };
-});
+})
 
+.factory('Tasks', function() {
+  // Might use a resource here that returns a JSON array
+
+  var tasks = [{
+    id: 0,
+    nombre: 'Buscar Local',
+    descripcion: 'Buscar un lugar suficientemente grande para la tienda de zapatos',
+    project: 'Tienda Zapatos',
+    creator: 'Kevin Curiel',
+    datecreated: '8/3/17',
+    datelimit: '8/4/17',
+    priority: 'Alta',
+    color: 'rgb(151, 213, 96)'
+  },{
+    id: 1,
+    nombre: 'Buscar Personal',
+    descripcion: 'Buscar personal para la tienda de zapatos',
+    project: 'Tienda Zapatos',
+    creator: 'Kevin Curiel',
+    datecreated: '8/3/17',
+    datelimit: '8/4/17',
+    priority: 'Media',
+    color: 'rgb(151, 213, 96)'
+  },{
+    id: 2,
+    nombre: 'Seleccionar lenguaje',
+    descripcion: 'Reunirse y seleccionar el lenguaje que vamos a usar',
+    project: 'Desarrollo Web',
+    creator: 'Kevin Curiel',
+    datecreated: '8/3/17',
+    datelimit: '8/4/17',
+    priority: 'Media',
+    color: 'rgb(255, 101, 79)'
+},{
+    id: 3,
+    nombre: 'Seleccionar Plataforma',
+    descripcion: 'Reunirse y seleccionar la plataforma que vamos a usar',
+    project: 'Desarrollo Web',
+    creator: 'Kevin Curiel',
+    datecreated: '8/3/17',
+    datelimit: '8/4/17',
+    priority: 'Alta',
+    miembrosCount: 3,
+    imagen: 'img/webdev.jpg',
+    color: 'rgb(255, 101, 79)'
+  }]
+
+
+  return {
+    all: function() {
+      return tasks;
+    },
+    remove: function(pro) {
+      projects.splice(projects.indexOf(pro), 1);
+    },
+    get: function(proId) {
+      for (var i = 0; i < projects.length; i++) {
+        if (projects[i].id === parseInt(proId)) {
+          return projects[i];
+        }
+      }
+      return null;
+    },
+    isPartOf: function(pro, id)
+    {
+      for (var i = 0; i < projects.length; i++) {
+        if (projects[i].id === parseInt(pro)) {
+          for(var j = 0; j < projects[i].miembros.length; j++)
+          {
+            if(projects[i].miembros[j] === parseInt(id))
+            {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    },
+
+    addTask: function(nombre, descripcion, id, color)
+    {
+      var newTask = {
+        id: projects.length,
+        nombre: nombre,
+        descripcion: descripcion,
+        project: [id],
+        miembrosCount: 1,
+        imagen: 'img/project.png',
+        color: color
+      }
+      projects.push(newProject);
+    }
+  };
+});
