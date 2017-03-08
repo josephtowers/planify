@@ -1,13 +1,87 @@
 angular.module('starter.controllers', [])
 
-.value('userInSession',0)
 
-.controller('HomeCtrl', function($scope, $ionicModal, $timeout, $location, $ionicPopup, $state, Users, userInSession) {
-
+.controller('HomeCtrl', function($scope, $ionicModal, $timeout, $location, $ionicPopup, $state, Users, UserInSession, $ionicHistory, $cordovaToast) {
+    $scope.showToast = function(message, duration, location) {
+        $cordovaToast.show(message, "long", "bottom").then(function(success) {
+            console.log("The toast was shown");
+        }, function (error) {
+            console.log("The toast was not shown due to " + error);
+        });
+    }
+    $scope.newuser = {};
+     $scope.validateEmail = function (email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+};
+    
+    $scope.showAlert = function(errors) {
+   var alertPopup = $ionicPopup.alert({
+     title: 'Ocurrió un error',
+     template: errors,
+       buttons: [
+      {
+        text: '',
+          type: 'button-clear'
+      },
+        
+      {
+        text: 'ACEPTAR',
+        type: 'button-clear button-calm'
+      }
+    ]
+   });
+    };
     $scope.register = function()
     {
-        $scope.closeLogin();
-        $state.go('tab.dash');
+        console.log('Doing signup', $scope.newuser);
+    var data = $scope.newuser;
+      var errors = [];
+      if(data.nombre == null || data.nombre == "")
+          {
+              errors.push("<br />El nombre no puede estar en blanco");
+          }
+      if(data.email == null || !$scope.validateEmail(data.email))
+          {
+              errors.push("<br />El email no es valido");
+              console.log(data.email);
+          }
+      if(data.pass == null || data.pass2 == null || data.pass != data.pass2)
+          {
+              errors.push("<br />Las contraseñas no coinciden");
+          }
+      if(data.phone == null || data.phone == "")
+          {
+              errors.push("<br />Introduzca un telefono");
+          }
+      console.log(errors);
+      if(errors.length > 0)
+          {
+              
+      $scope.showAlert(errors);
+          }
+      else
+          {
+              if(Users.getByEmail(data.email))
+                  {
+                      $scope.informPopup('Hubo un error','Un usuario con ese correo electrónico ya existe. Si olvidate tu contraseña, haz tap en "Olvidé mi contraseña" en la pantalla de inicio');
+                  }
+              else
+                  {
+                      var obj = {};
+                      obj.nombre = data.nombre;
+                      obj.email = data.email;
+                      obj.phone = data.phone;
+                      obj.pass = CryptoJS.AES.encrypt(data.pass, data.email);
+                      Users.new(obj);
+                    //   $scope.informPopup('¡Todo listo!','Bienvenido a Planify, ' + obj.nombre + '. Por favor, inicia sesión para comenzar');
+                        $scope.closeLogin();
+                         $scope.showToast('¡Cuenta creada! Por favor, inicia sesión para comenzar','long','bottom');
+                   
+                 //     $state.go('tab.dash');
+                  }
+              
+          }
     }
   // Form data for the login modal
   $scope.loginData = {};
@@ -27,7 +101,6 @@ angular.module('starter.controllers', [])
   // Open the login modal
   $scope.login = function() {
     $scope.modal.show();
-      alert(userInSession);
   };
    
     $scope.doLogin = function() {
@@ -44,7 +117,8 @@ angular.module('starter.controllers', [])
             {
                 $scope.closeLogin();
                 $state.go('tab.dash');
-                userInSession = currentUser.id;
+                $scope.setter = UserInSession.set(currentUser.id)
+                console.log("Now " + currentUser.id + " " + currentUser.nombre + " is logged in!");
             }
         else
             {
@@ -76,13 +150,13 @@ angular.module('starter.controllers', [])
   });
 
  };
-
+$scope.forgot = {};
 $scope.showPopup = function() {
   $scope.data = {};
    
 
   var myPopup = $ionicPopup.show({
-    template: '<input type="email" class="custom-input custom-input-pass" placeholder="Correo electrónico">',
+    template: '<input type="email" class="custom-input custom-input-pass" placeholder="Correo electrónico" ng-model="forgot.pass">',
     title: 'Olvidé mi contraseña',
     subTitle: 'Por favor, introduzca su correo electrónico para recuperarla:',
     scope: $scope,
@@ -94,8 +168,19 @@ $scope.showPopup = function() {
         
       {
         text: 'ACEPTAR',
-        type: 'button-clear button-calm'
-      }
+        type: 'button-clear button-calm',
+          onTap: function()
+          {
+              if($scope.validateEmail(data.email)){
+                 
+              $scope.showToast('Si tiene una cuenta en Planify, recibirá un correo electrónico a ' + $scope.forgot.pass + ' con instrucciones para recuperar su contraseña','long','bottom');
+                 }
+          else
+          {
+                 $scope.showToast('Ese no es un correo electrónico','long','bottom');
+          }
+          
+      }}
     ]
   });
 
@@ -106,22 +191,42 @@ $scope.showPopup = function() {
  };
 })
 
-.controller('DashCtrl', function($scope) {})
-
-.controller('ProjectsCtrl', function($scope, $timeout, $ionicPopup, Projects, Users, userInSession) {
+.controller('DashCtrl', function($scope, Users, UserInSession, Projects, $timeout) {
     
     $scope.doRefresh = function() {
     
     console.log('Refreshing!');
     $timeout( function() {
       
+    $scope.pros = $scope.getProjects();
       $scope.$broadcast('scroll.refreshComplete');
-    
     }, 1000);
       
   };
+    $scope.user = Users.get(UserInSession.get());
     
-    $scope.projects = Projects.all();
+    $scope.getProjects = function(){
+        var projects = Projects.allMine(UserInSession.get());
+        return projects.length;
+    }
+    $scope.doRefresh();
+    $scope.pros = $scope.getProjects();
+})
+
+.controller('ProjectsCtrl', function($scope, $timeout, $ionicPopup, Projects, Users, UserInSession) {
+    
+    $scope.doRefresh = function() {
+    
+    console.log('Refreshing!');
+    $timeout( function() {
+      
+    $scope.projects = Projects.allMine($scope.userInSession);
+      $scope.$broadcast('scroll.refreshComplete');
+    }, 1000);
+      
+  };
+    $scope.userInSession = UserInSession.get();
+    $scope.projects = Projects.allMine($scope.userInSession);
     $scope.users = Users.all();
     
     $scope.showMe = function(n){
@@ -270,8 +375,9 @@ $scope.showPopup = function() {
 
                       {
                           var color = 'rgb('+ Math.floor((Math.random() * 255) + 1) +','+ Math.floor((Math.random() * 255) + 1) +','+ Math.floor((Math.random() * 255) + 1) +')';
-                          Projects.addProject($scope.pro.nombre, $scope.pro.descripcion, userInSession, color);
+                          Projects.addProject($scope.pro.nombre, $scope.pro.descripcion, UserInSession.get(), color);
                           $('.custom-input').html('');
+                          $scope.doRefresh();
                       }
                   else{
                       $scope.informPopup('Error', 'Debe introducir un nombre y una descripción', $scope.addProject());
