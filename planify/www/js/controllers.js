@@ -14,7 +14,7 @@ angular.module('starter.controllers', [])
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(email);
 };
-    
+
     $scope.showAlert = function(errors) {
    var alertPopup = $ionicPopup.alert({
      title: 'Ocurrió un error',
@@ -24,7 +24,7 @@ angular.module('starter.controllers', [])
         text: '',
           type: 'button-clear'
       },
-        
+
       {
         text: 'ACEPTAR',
         type: 'button-clear button-calm'
@@ -57,7 +57,7 @@ angular.module('starter.controllers', [])
       console.log(errors);
       if(errors.length > 0)
           {
-              
+
       $scope.showAlert(errors);
           }
       else
@@ -77,10 +77,10 @@ angular.module('starter.controllers', [])
                     //   $scope.informPopup('¡Todo listo!','Bienvenido a Planify, ' + obj.nombre + '. Por favor, inicia sesión para comenzar');
                         $scope.closeLogin();
                          $scope.showToast('¡Cuenta creada! Por favor, inicia sesión para comenzar','long','bottom');
-                   
+
                  //     $state.go('tab.dash');
                   }
-              
+
           }
     }
   // Form data for the login modal
@@ -102,7 +102,7 @@ angular.module('starter.controllers', [])
   $scope.login = function() {
     $scope.modal.show();
   };
-   
+
     $scope.doLogin = function() {
         var currentUser;
         var allUsers = Users.all();
@@ -126,7 +126,7 @@ angular.module('starter.controllers', [])
             }
     };
     $scope.informPopup = function(title, subTitle) {
-  
+
   var myPopup = $ionicPopup.show({
 //    template: '<input type="email" class="custom-input custom-input-pass" placeholder="Correo electrónico">',
     title: title,
@@ -137,7 +137,7 @@ angular.module('starter.controllers', [])
         text: '',
           type: 'button-clear'
       },
-        
+
       {
         text: 'ACEPTAR',
         type: 'button-clear button-calm'
@@ -153,7 +153,7 @@ angular.module('starter.controllers', [])
 $scope.forgot = {};
 $scope.showPopup = function() {
   $scope.data = {};
-   
+
 
   var myPopup = $ionicPopup.show({
     template: '<input type="email" class="custom-input custom-input-pass" placeholder="Correo electrónico" ng-model="forgot.pass">',
@@ -161,25 +161,25 @@ $scope.showPopup = function() {
     subTitle: 'Por favor, introduzca su correo electrónico para recuperarla:',
     scope: $scope,
     buttons: [
-      
+
         { text: 'CANCELAR',
        type: 'button-clear button-calm'
       },
-        
+
       {
         text: 'ACEPTAR',
         type: 'button-clear button-calm',
           onTap: function()
           {
               if($scope.validateEmail(data.email)){
-                 
+
               $scope.showToast('Si tiene una cuenta en Planify, recibirá un correo electrónico a ' + $scope.forgot.pass + ' con instrucciones para recuperar su contraseña','long','bottom');
                  }
           else
           {
                  $scope.showToast('Ese no es un correo electrónico','long','bottom');
           }
-          
+
       }}
     ]
   });
@@ -192,19 +192,19 @@ $scope.showPopup = function() {
 })
 
 .controller('DashCtrl', function($scope, Users, UserInSession, Projects, $timeout) {
-    
+
     $scope.doRefresh = function() {
-    
+
     console.log('Refreshing!');
     $timeout( function() {
-      
+
     $scope.pros = $scope.getProjects();
       $scope.$broadcast('scroll.refreshComplete');
     }, 1000);
-      
+
   };
     $scope.user = Users.get(UserInSession.get());
-    
+
     $scope.getProjects = function(){
         var projects = Projects.allMine(UserInSession.get());
         return projects.length;
@@ -214,21 +214,21 @@ $scope.showPopup = function() {
 })
 
 .controller('ProjectsCtrl', function($scope, $timeout, $ionicPopup, Projects, Users, UserInSession) {
-    
+
     $scope.doRefresh = function() {
-    
+
     console.log('Refreshing!');
     $timeout( function() {
-      
+
     $scope.projects = Projects.allMine($scope.userInSession);
       $scope.$broadcast('scroll.refreshComplete');
     }, 1000);
-      
+
   };
     $scope.userInSession = UserInSession.get();
     $scope.projects = Projects.allMine($scope.userInSession);
     $scope.users = Users.all();
-    
+
     $scope.showMe = function(n){
         if($('ion-item[aria-order="'+n+'"]').hasClass('activenow'))
             {
@@ -248,9 +248,9 @@ $scope.showPopup = function() {
                 $('ion-item[aria-order="'+n+'"] i').removeClass('ion-chevron-down');
                 $('ion-item[aria-order="'+n+'"] i').addClass('ion-chevron-up');
             }
-        
+
     };
-    
+
     $scope.showMembers = function(pro)
     {
         var template = "";
@@ -266,11 +266,11 @@ $scope.showPopup = function() {
     title: 'Miembros',
     scope: $scope,
     buttons: [
-      
+
         { text: 'CERRAR',
        type: 'button-clear button-calm'
       },
-        
+
       {
         text: 'AGREGAR',
         type: 'button-clear button-calm',
@@ -282,7 +282,7 @@ $scope.showPopup = function() {
     ]
   });
     };
-    
+
     $scope.add = {};
     $scope.addMember = function(pro)
     {
@@ -292,7 +292,7 @@ $scope.showPopup = function() {
     subTitle: 'Por favor, introduzca el correo electrónico de la persona que se agregará al proyecto:',
     scope: $scope,
     buttons: [
-      
+
         { text: 'CANCELAR',
        type: 'button-clear button-calm',
          onTap: function()
@@ -300,7 +300,7 @@ $scope.showPopup = function() {
              $('.custom-input').html('');
          }
       },
-        
+
       {
         text: 'ACEPTAR',
         type: 'button-clear button-calm',
@@ -318,7 +318,7 @@ $scope.showPopup = function() {
                   }
               else
                   {
-                      
+
                       $scope.informPopup('Error', 'El correo electrónico no corresponde a ningún usuario. Inténtelo de nuevo',$scope.addMember());
                   }
           }
@@ -326,9 +326,9 @@ $scope.showPopup = function() {
     ]
   });
     }
-    
+
      $scope.informPopup = function(title, subTitle, callback) {
-  
+
   var myPopup = $ionicPopup.show({
 //    template: '<input type="email" class="custom-input custom-input-pass" placeholder="Correo electrónico">',
     title: title,
@@ -339,7 +339,7 @@ $scope.showPopup = function() {
         text: '',
           type: 'button-clear'
       },
-        
+
       {
         text: 'ACEPTAR',
         type: 'button-clear button-calm'
@@ -382,8 +382,8 @@ $scope.showPopup = function() {
                   else{
                       $scope.informPopup('Error', 'Debe introducir un nombre y una descripción', $scope.addProject());
                   }
-                  
-                  
+
+
               }
           }
         ]
@@ -393,4 +393,62 @@ $scope.showPopup = function() {
 
 .controller('TasksCtrl', function($scope) {})
 
-.controller('PreferencesCtrl', function($scope) {});
+.controller('PreferencesCtrl', function($scope, $ionicModal,$ionicPopup, $state) {
+
+  // Create the login modal that we will use later
+  $ionicModal.fromTemplateUrl('templates/edit.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
+  // Triggered in the login modal to close it
+  $scope.closeEdit = function() {
+    $scope.modal.hide();
+  };
+
+  // Triggered in the login modal to close it
+  $scope.save = function() {
+    $scope.modal.hide();
+  };
+
+  // Open the login modal
+  $scope.editPreferences = function() {
+    $scope.modal.show();
+  };
+
+  $scope.showAbout = function() {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Acerca de',
+      template: '<p>Versión 1.0.2</p> <p>Planify</p> <p>Creada por: José Torres, Kevin Curiel, Alvin Durán y Dariel Cruz</p> <p>Desarrollo de Aplicaciones Móviles @2017</p>',
+      buttons: [
+        {
+          text: 'ACEPTAR',
+          type: 'button-clear button-calm'
+        }
+      ]
+    });
+  };
+
+  $scope.showTerms = function() {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Términos y Condiciones',
+      template: '<p>App hecha para fines educativos</p>',
+      buttons: [
+        {
+          text: 'ACEPTAR',
+          type: 'button-clear button-calm'
+        }
+      ]
+    });
+  };
+
+  $scope.enablePasswordsFields = function() {
+    $("#passwordsFields").toggle(1000);
+  };
+
+  $scope.logout = function() {
+    $state.go('home');
+  };
+
+});
