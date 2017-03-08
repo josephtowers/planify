@@ -107,6 +107,10 @@
 
 }
 
+.account-info {
+  margin-bottom:10px;
+}
+
 #dasboard .dash {
   vertical-align: top;
   text-align: center;
@@ -136,6 +140,21 @@
   width: 100%;
   padding:10px 0;
   color:white;
+}
+
+.notices {}
+
+.notices .notice {}
+
+.notice-icon.icon-task {
+  float:left;
+  padding:15px;
+}
+
+.notice-heading {
+  padding-top:10px;
+  font-size: 16px;
+  font-family: "Roboto";
 }
 
 /* Dashboard End */
