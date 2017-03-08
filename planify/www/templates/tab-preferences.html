@@ -1,8 +1,29 @@
 <ion-view view-title="Preferencias">
-  <ion-content class="padding">
-    <p>
-    Aquí van las Preferencias
-    </p>
+  <ion-content>
+    <ion-item class="item-remove-animate" type="item-text-wrap"  ng-click="editPreferences()" >
+      <h2>Editar perfil</h2>
+      <p>Cambiar la informacion de tu cuenta</p>
+    </ion-item>
+    <ion-toggle>
+      Recibir notificaciones push
+      <p>Activa las alertas superpuestas</p>
+    </ion-toggle>
+    <ion-toggle>
+      Enviar correos electrónicos
+        <p>Al realizarse el cambio de una tarea</p>
+      </ion-toggle>
+    <ion-item class="item-remove-animate" type="item-text-wrap" ng-click="showAbout()" >
+      <h2>Acerca de</h2>
+      <p>Informacion sobre esta aplicación</p>
+    </ion-item>
+    <ion-item class="item-remove-animate" type="item-text-wrap" ng-click="showTerms()" >
+      <h2>Términos y condiciones</h2>
+      <p>Los términos de uso de la aplicación</p>
+    </ion-item>
+    <ion-item class="item-remove-animate " type="item-text-wrap" ng-click="logout()" >
+      <h2>Cerrar sesión</h2>
+      <p>Cierra la sesión actual</p>
+    </ion-item>
 
   </ion-content>
 </ion-view>

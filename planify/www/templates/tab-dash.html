@@ -1,14 +1,33 @@
 <ion-view view-title="Dashboard">
-  <ion-content class="padding">
-    
+
+  <ion-content class="padding" ng-controller="DashCtrl">
+    <ion-refresher on-refresh="doRefresh()">
+                     
+      </ion-refresher>
     <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" >
-        <img ng-src="img/logo.png">
-        <h2>Julio</h2>
-        <p>julio@gmail.com</p>
+        <img style="background-color:lightpink">
+        <h2>{{user.nombre}}</h2>
+        <p>{{user.email}}</p>
 <!--        <i class="icon ion-chevron-right icon-accessory"></i>-->
 
       </ion-item>
  
-   
+    <div class="row">
+        <div class="col" style="text-align:center;background-color:#008E59;color:white;font-size:6em;height:200px;line-height:200px;vertical-align:middle">{{pros}}</div>
+        <div class="col" style="text-align:center;background-color:#C90303;color:white;font-size:6em;height:200px;line-height:200px;vertical-align:middle">0</div>
+      </div>
+      <div class="row">
+          <div class="col" style="background-color:#455A64;color:white;text-align:center;padding:10px 0">Proyectos asignados</div>
+          <div class="col" style="background-color:#455A64;color:white;text-align:center;padding:10px 0">Tareas pendientes</div>
+      </div>
+      
+      <p style="margin-top:20px;margin-bottom:0 !important">PRÓXIMA TAREA:</p>
+      <div class="card" style="margin-top:5px !important">
+          <a class="item item-icon-left">
+    <i class="icon ion-android-clipboard"></i>
+    Cargar los productos
+              <h3 style="color:gray">Proyecto: Tienda de zapatos</h2>
+  </a>
+      </div>
   </ion-content>
 </ion-view>

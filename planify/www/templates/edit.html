@@ -1,0 +1,36 @@
+<ion-modal-view>
+
+  <ion-content>
+    <div class="main-screen main-screen-signup" class="padding">
+      	<h1 class="head-title">Editar perfil</h1>
+        <form>
+            <input type="text" maxlength="50" class="custom-input" placeholder="Nombre completo" ng-model="newuser.nombre">
+            <ion-item ng-click="changeProfilePicture()" class="padding">
+              <h2>Imagen</h2>
+              <div class="item-avatar-right">
+                <img ng-src="img/adam.jpg">
+              </div>
+            </ion-item>
+            <ion-toggle ng-change="enablePasswordsFields()" ng-model="passwordFields">
+              Cambiar contraseña
+            </ion-toggle>
+          <div id="passwordsFields" style="display: none">
+            <input type="password" maxlength="20" class="input custom-input" placeholder="Contraseña actual" ng-model="newuser.pass">
+            <input type="password" maxlength="20" class="input custom-input" placeholder="Contraseña" ng-model="newuser.pass">
+            <input type="password" maxlength="20" class="input custom-input" placeholder="Confirmar contraseña" ng-model="newuser.pass2">
+          </div>
+          <br>
+          <div class="button-group">
+              <button class="button-clear button-calm" ng-click="save()" style="color: #0c60ee">
+                  ACEPTAR
+              </button>
+            <button class="button-clear button-calm" ng-click="closeEdit()" style="color: #0c60ee">
+              CANCELAR
+            </button>
+          </div>
+          </form>
+      </div>
+  </ion-content>
+
+
+</ion-modal-view>

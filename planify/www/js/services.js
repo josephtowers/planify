@@ -39,6 +39,18 @@ angular.module('starter.services', [])
     all: function() {
       return users;
     },
+
+    new: function(obj)
+      {
+          var newuser = {
+              id: users.length,
+              nombre: obj.nombre,
+              email: obj.email,
+              telefono: obj.phone,
+              password: obj.pass
+          } 
+          users.push(newuser);
+      },
     remove: function(user) {
       users.splice(users.indexOf(user), 1);
     },
@@ -62,6 +74,22 @@ angular.module('starter.services', [])
   };
 })
 
+
+.factory('UserInSession', function(){
+    var user = 0;
+    
+    return {
+        get: function()
+        {
+            return user;
+        },
+        set: function(id)
+        {
+            user = id;
+        }
+    }
+})
+
 .factory('Projects', function() {
   // Might use a resource here that returns a JSON array
 
@@ -83,11 +111,27 @@ angular.module('starter.services', [])
       color: 'rgb(255, 101, 79)'
   }]
 
-
   return {
     all: function() {
       return projects;
     },
+
+      allMine: function(id)
+      {
+          console.log("Buscando los proyectos de " + id);
+          var thoseProjects = [];
+          for (var i = 0; i < projects.length; i++) {
+                   for(var j = 0; j < projects[i].miembros.length; j++)
+                       {
+                           if(projects[i].miembros[j] === parseInt(id))
+                               {
+                                   thoseProjects.push(projects[i]);
+                               }
+                       }
+               
+      }
+          return thoseProjects;
+      },
     remove: function(pro) {
       projects.splice(projects.indexOf(pro), 1);
     },

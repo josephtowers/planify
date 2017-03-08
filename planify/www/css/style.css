@@ -5,6 +5,11 @@
 	src: url('fonts/Proxima.otf');
 
 }
+@font-face
+{
+    font-family: 'Roboto1';
+    src: url('fonts/Roboto-Regular.ttf');
+}
 .logo
 {
 	width:50%;
