@@ -1,9 +1,28 @@
-<ion-view view-title="Proyectos">
-  <ion-content class="padding">
-    <p>
-    Aquí van los proyectos
-    </p>
+<ion-view view-title="Proyectos" ng-controller="ProjectsCtrl">
+  <ion-content class="projects-content">
+      <ion-refresher on-refresh="doRefresh()">
+                     
+      </ion-refresher>
+   <div class="card" ng-repeat="pro in projects">
+  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" aria-order="{{pro.id}}" ng-click="showMe({{pro.id}})" >
+        <img style="background-color:{{pro.color}}">
+        <h2>{{pro.nombre}}</h2>
+        <p>Miembros: {{pro.miembrosCount}}</p>
+        <i class="icon ion-chevron-down icon-accessory"></i>
+
+      </ion-item>
+       <div class="item item-body hidden hidden{{pro.id}}" style="display:none">
+           <div class="item item-image">
+                <img src="{{pro.imagen}}">
+            </div>
+           <p>{{pro.descripcion}}</p>
+           <button class="button button-clear button-calm" ng-click="showMembers({{pro.id}})">MIEMBROS</button>
+       </div>
+</div>
+      <div class="padding">
+       <button class="button button-balanced button-block" ng-click="addProject()">AGREGAR PROYECTO</button>
+      </div>
      
-       
+        
   </ion-content>
 </ion-view>
