@@ -65,7 +65,7 @@
 .popup button
 {
     font-size:14px !important;
-  
+
 }
 .tab-title
 {
@@ -94,9 +94,48 @@
 .activated
 {
     border:none !important;
-    
+
 }
 .tab-item:not(.tab-item-active)
 {
     color:black !important;
 }
+
+/* Dashboard */
+
+#dashboard {
+
+}
+
+#dasboard .dash {
+  vertical-align: top;
+  text-align: center;
+}
+
+#dashboard .dash .dash-pane {
+  width: 48%;
+  display: inline-block;
+  background-color: #008E59;
+  text-align: center;
+}
+
+#dashboard .dash .dash-pane + .dash-pane {
+  margin-left:2%;
+  background: #C90303;
+}
+
+#dashboard .dash-pane .dash-info {
+  color:white;
+  font-size: 70px;
+  font-weight:700;
+  padding:85px 0;
+}
+
+.dash-caption {
+  background:#455A64;
+  width: 100%;
+  padding:10px 0;
+  color:white;
+}
+
+/* Dashboard End */

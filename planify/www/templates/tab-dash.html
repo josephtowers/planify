@@ -1,9 +1,81 @@
 <ion-view view-title="Dashboard">
   <ion-content class="padding">
-    
-    <p>
-    Aquí va el Dashboard
-    </p>
-   
+
+    <div id="dashboard">
+
+      <nav class="menu-nav" id="top-menu">
+
+        <ul>
+          <li>
+            <a href="./#/home" class="menu-link" id="home-link">
+              <i class="icon-home">Home Icon</i>
+            </a>
+          </li>
+          <li>
+            <a href="./#/projects" class="menu-link" id="projects-link">
+              <i class="icon-project">Project Icon</i>
+            </a>
+          </li>
+          <li>
+            <a href="./#/tasks" class="menu-link" id="tasks-link">
+              <i class="icon-task">Project Icon</i>
+            </a>
+          </li>
+          <li>
+            <a href="./#/preferences" class="menu-link" id="preferences-link">
+              <i class="icon-preference">Preference Icon</i>
+            </a>
+          </li>
+        </ul>
+
+      </nav>
+
+      <div class="account-info">
+        <div class="account-image">
+          <img src="account-image.png" alt="User">
+        </div>
+        <h4>Carlos Santana</h4>
+        <p>carlossantana@outlook.com</p>
+      </div>
+
+      <div class="dash">
+
+        <div class="dash-pane">
+          <div class="dash-info">
+            3
+          </div>
+          <div class="dash-caption">
+            Proyectos asignados
+          </div>
+        </div>
+
+        <div class="dash-pane">
+          <div class="dash-info">
+            9
+          </div>
+          <div class="dash-caption">
+            Tareas pendientes
+          </div>
+        </div>
+
+      </div>
+
+      <div class="notices">
+
+        <div class="notice">
+          <h3 class="notice-heading">PRÓXIMA TAREA:</h3>
+          <div class="notice-content">
+            <i class="notice-icon icon-task"></i>
+            <div class="notice-info">
+              <h5 class="notice-heading">Cargar productos a la base de datos</h5>
+              <p class="notice-content">Proyecto: Tienda de zapatos</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
   </ion-content>
 </ion-view>
