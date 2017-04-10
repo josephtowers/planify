@@ -76,10 +76,13 @@ angular.module('starter.controllers', [])
         {
           try{
             var obj = {};
+
             obj.nombre = data.nombre;
             obj.email = data.email;
             obj.phone = data.phone;
-            obj.pass = CryptoJS.AES.encrypt(data.pass, data.email);
+            // obj.pass = CryptoJS.AES.encrypt(data.pass, data.email);
+            obj.pass = CryptoJS.AES.encrypt(data.pass, data.email).toString();
+            // obj.pass = data.pass;
             Users.new(obj);
             //   $scope.informPopup('¡Todo listo!','Bienvenido a Planify, ' + obj.nombre + '. Por favor, inicia sesión para comenzar');
             $scope.closeLogin();
@@ -135,6 +138,10 @@ angular.module('starter.controllers', [])
     $scope.doLogin = function() {
       var currentUser;
       var allUsers = Users.all();
+
+      console.log(allUsers);
+      console.log($scope.loginData);
+
       for(var i = 0; i < allUsers.length; i++)
       {
         if(allUsers[i].email == $scope.loginData.username)
@@ -142,7 +149,12 @@ angular.module('starter.controllers', [])
           currentUser = allUsers[i];
         }
       }
+
+      console.log(currentUser)
+      console.log(CryptoJS.AES.decrypt(currentUser.password, currentUser.email).toString(CryptoJS.enc.Utf8))
+
       if(currentUser != null && CryptoJS.AES.decrypt(currentUser.password, currentUser.email).toString(CryptoJS.enc.Utf8) == $scope.loginData.password)
+      // if(currentUser != null && currentUser.password == $scope.loginData.password)
       {
         $scope.closeLogin();
         $state.go('tab.dash');

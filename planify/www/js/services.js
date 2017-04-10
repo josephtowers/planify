@@ -1,4 +1,4 @@
-var base_url = 'http://186.120.18.173/planify/public/';
+var base_url = 'http://66a7683e.ngrok.io/planify/public/';
 
 angular.module('starter.services', [])
   .factory('Users', function ($http) {
@@ -81,12 +81,9 @@ angular.module('starter.services', [])
           password: obj.pass
         };
 
-        console.log('User Request?');
-        console.log(userRequest);
-
         $http({
           method: 'POST',
-          url: base_url + 'user',
+          url: base_url + 'user/add',
           headers: {},
           data: userRequest
         }).then(function successCallback(response) {
@@ -132,7 +129,7 @@ angular.module('starter.services', [])
     }
   })
 
-  .factory('Projects', function () {
+  .factory('Projects', function ($http) {
     // Might use a resource here that returns a JSON array
 
     var projects = [{
@@ -152,6 +149,28 @@ angular.module('starter.services', [])
       imagen: 'img/webdev.jpg',
       color: 'rgb(255, 101, 79)'
     }]
+
+    projects = [];
+    $http({
+      method: 'GET',
+      url: base_url + 'project',
+      headers: {}
+    }).then(function successCallback(response) {
+      var projectsData = response.data;
+      for (var i = 0; i < projectsData.length; i++) {
+        var project = projectsData[i];
+        console.log(project);
+        projects.push({
+          id: project.id,
+          nombre: project.name,
+          descripcion: project.description,
+          miembros: project.users,
+          miembrosCount: project.users.length,
+          imagen: project.image_uri,
+          color: project.color
+        });
+      }
+    })
 
     return {
       all: function () {
@@ -218,7 +237,7 @@ angular.module('starter.services', [])
     };
   })
 
-  .factory('Tasks', function () {
+  .factory('Tasks', function ($http) {
     // Might use a resource here that returns a JSON array
 
     var tasks = [{
@@ -267,6 +286,34 @@ angular.module('starter.services', [])
       color: 'rgb(255, 101, 79)'
     }]
 
+    tasks = [];
+    $http({
+      method: 'GET',
+      url: base_url + 'task',
+      headers: {}
+    }).then(function successCallback(response) {
+      var tasksData = response.data;
+      for(var i = 0; i < tasksData.length; i++) {
+        var task = tasksData[i];
+        console.log(task);
+        tasks.push({
+          id: task.id,
+          nombre: task.name,
+          descripcion: task.description,
+          project: task.project_id,
+          creator: task.created_by_user_id,
+          datecreated: task.created_at,
+          datelimit: task.due_date,
+          priority: task.priority_level.name,
+          assignedTo: task.assigned_to_user_id,
+          color: task.color
+        });
+      }
+    }, function errorCallback(response) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+    });
+
 
     return {
       all: function () {
@@ -298,6 +345,28 @@ angular.module('starter.services', [])
           color: 'rgb(255, 101, 79)'
         }
         tasks.push(newTask);
+
+
+        var taskRequest = {
+          nombre: nombre,
+          descripcion: descripcion,
+          color: color,
+          priority: 'Media',
+          assignedTo: assignedToId,
+          project: projectId
+        };
+
+        $http({
+          method: 'POST',
+          url: base_url + 'task/add',
+          headers: {},
+          data: taskRequest
+        }).then(function successCallback(response) {
+          console.log(response);
+        }, function errorCallback(response) {
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+        });
       }
     };
   });
