@@ -158,7 +158,7 @@ angular.module('starter.controllers', [])
       {
         $scope.closeLogin();
         $state.go('tab.dash');
-        $scope.setter = UserInSession.set(currentUser.id)
+        $scope.setter = UserInSession.set(currentUser.id);
         console.log("Now " + currentUser.id + " " + currentUser.nombre + " is logged in!");
       }
       else
@@ -243,8 +243,9 @@ angular.module('starter.controllers', [])
       myPopup.then(function(res) {
         console.log('Tapped!', res);
       });
-
+        
     };
+    $scope.user = Users.get(UserInSession.get());
   })
 
   .controller('DashCtrl', function($scope, Users, UserInSession, Projects, $timeout, Tasks) {

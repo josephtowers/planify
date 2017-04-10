@@ -23,6 +23,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
 
     });
+    $ionicPlatform.registerBackButtonAction(function (event) {
+    event.preventDefault();
+}, 100);
   })
 
   .config(function ($stateProvider, $urlRouterProvider) {
