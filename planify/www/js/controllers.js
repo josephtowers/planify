@@ -187,8 +187,8 @@ $scope.showPopup = function() {
                  }
           else
           {
-                 $scope.showToast('Ese no es un correo electrónico','long','bottom');  
-          }  
+                 $scope.showToast('Ese no es un correo electrónico','long','bottom');
+          }
 
       }}
     ]
@@ -222,9 +222,9 @@ $scope.showPopup = function() {
         for(var i = 0; i < tasks.length; i++)
             {
                 if(tasks[i].creator === UserInSession.get() || tasks[i].assignedTo === UserInSession.get()){
-                                
+
                 renderedTasks.push(tasks[i])}
-                
+
             }
         return renderedTasks.length;
     }
@@ -586,7 +586,7 @@ $scope.showPopup = function() {
 })
 
 .controller('TasksCtrl', function($scope, $timeout, $ionicPopup, Tasks, Users, UserInSession, Projects) {
- 
+
     $scope.myProjects = Projects.allMine(UserInSession.get());
     $scope.doRefresh = function() {
 
@@ -628,9 +628,9 @@ $scope.showPopup = function() {
                     assignedTo: nombreAsignado,
                     color: tasks[i].color
                 }
-                
+
                 renderedTasks.push(task);}
-                
+
             }
         return renderedTasks;
     }
@@ -658,7 +658,7 @@ $scope.showPopup = function() {
     }
 
   };
-    
+
     $scope.task = {
         nombre: null,
         selectedProject: null,
@@ -688,7 +688,7 @@ $scope.showPopup = function() {
                     }
                 $scope.members = miembros;
             }
-        
+
     }
   $scope.pro = {};
   $scope.addTask = function()
