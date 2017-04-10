@@ -4,8 +4,8 @@ angular.module('starter.controllers', [])
 
   .controller('HomeCtrl', function($scope, $ionicModal, $timeout, $location, $ionicPopup, $state, Users, UserInSession, $ionicHistory, $cordovaToast, $http) {
 
-    var mailUrl =  "https://api.mailgun.net/v3/intec.planify.com/messages"
-    var mailApiKey = window.btoa("api:key-9377d5c0f0e2db99510d6a449b49b334")
+    var mailUrl =  "api:key-7c3464b6ed9c2d409179223b076d425b@api.mailgun.net/v3/pasaporgo.com/messages";
+    var mailApiKey = "";
 
     $scope.showToast = function(message, duration, location) {
       $cordovaToast.show(message, "long", "bottom").then(function(success) {
@@ -83,7 +83,24 @@ angular.module('starter.controllers', [])
             Users.new(obj);
             //   $scope.informPopup('¡Todo listo!','Bienvenido a Planify, ' + obj.nombre + '. Por favor, inicia sesión para comenzar');
             $scope.closeLogin();
+            
             $scope.showToast('¡Cuenta creada! Por favor, inicia sesión para comenzar','long','bottom');
+            var settings = {
+              "async": true,
+              "crossDomain": true,
+              "url": "https://api.mailgun.net/v3/pasaporgo.com/messages?from=planify@pasaporgo.com&to="+obj.email+"&subject="+obj.nombre+", te damos la bienvenida a Planify&text=Gracias por confiar en Planify para gestionar tus proyectos personales y profesionales. Comienza a trabajar",
+              "method": "POST",
+            "username": "api",
+            "password": "key-7c3464b6ed9c2d409179223b076d425b",
+              beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Access-Control-Allow-Headers", "Authorization");
+                xhr.setRequestHeader ("Authorization", "Basic " + btoa("api" + ":" + "key-7c3464b6ed9c2d409179223b076d425b"));
+            }
+            }
+
+            $.ajax(settings).done(function (response) {
+              console.log(response);
+            });
           }
           catch(e)
           {
@@ -187,23 +204,22 @@ angular.module('starter.controllers', [])
             {
               if($scope.validateEmail($scope.forgot.pass)){
                 $scope.showToast('Si tiene una cuenta en Planify, recibirá un correo electrónico a ' + $scope.forgot.pass + ' con instrucciones para recuperar su contraseña','long','bottom');
-                $http({
-                    "method": "POST",
-                    "url": mailUrl,
-                    "headers": {
-                      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-                      "Access-Control-Allow-Origin": "*",
-                      "Access-Control-Allow-Methods": "POST, GET",
-                      "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
-                      "Authorization": "Basic " + mailApiKey
-                    },
-                    data: "from=" + "donotreply@planify.com" + "&to=" + $scope.forgot.pass + "&subject= Password Recovery" + "&text= Your new password is 123456"
-                  }
-                ).then(function(success) {
-                  console.log("SUCCESS " + JSON.stringify(success));
-                }, function(error) {
-                  alert("Ha ocurrido un error al enviarle el correo.");
-                });
+                var settings = {
+              "async": true,
+              "crossDomain": true,
+              "url": "https://api.mailgun.net/v3/pasaporgo.com/messages?from=planify@pasaporgo.com&to="+$scope.forgot.pass+"&subject=Instrucciones para recuperar tu contraseña&text=Solicitaste recuperar tu contraseña. Dentro de poco, un miembro del equipo de Planify te contactará por teléfono para volver a tener acceso a tu cuenta. Gracias.",
+              "method": "POST",
+            "username": "api",
+            "password": "key-7c3464b6ed9c2d409179223b076d425b",
+              beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Access-Control-Allow-Headers", "Authorization");
+                xhr.setRequestHeader ("Authorization", "Basic " + btoa("api" + ":" + "key-7c3464b6ed9c2d409179223b076d425b"));
+            }
+            }
+
+            $.ajax(settings).done(function (response) {
+              console.log(response);
+            });
               } else {
                 $scope.showToast('Ese no es un correo electrónico','long','bottom');
               }
@@ -359,7 +375,7 @@ angular.module('starter.controllers', [])
                   $scope.informPopup('Error', 'El correo electrónico corresponde a un usuario que ya es parte del proyecto. Inténtelo de nuevo',$scope.addMember());
                 } else{
                   Projects.addMember(pro, member.id);
-                  $http({
+                 /* $http({
                       "method": "POST",
                       "url": mailUrl,
                       "headers": {
@@ -375,7 +391,7 @@ angular.module('starter.controllers', [])
                     console.log("SUCCESS " + JSON.stringify(success));
                   }, function(error) {
                     alert("Ha ocurrido un error al enviarle el correo.");
-                  });
+                  });*/
                 }
               }
               else
@@ -758,7 +774,7 @@ angular.module('starter.controllers', [])
                 Tasks.addTask($scope.task.nombre, $scope.task.descripcion, UserInSession.get(), $scope.task.selectedTask, $scope.task.selectedProject, color);
                 var assignedUser = Users.get(parseInt($scope.task.selectedTask));
 
-                $http({
+              /*  $http({
                     "method": "POST",
                     "url": mailUrl,
                     "headers": {
@@ -774,7 +790,7 @@ angular.module('starter.controllers', [])
                   console.log("SUCCESS " + JSON.stringify(success));
                 }, function(error) {
                   console.log("ERROR " + JSON.stringify(error));
-                });
+                });*/
 
                 $('.custom-input').html('');
                 $scope.doRefresh();
